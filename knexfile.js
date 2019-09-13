@@ -9,9 +9,9 @@ module.exports = {
       filename: './data/projects.db3'
     },
     migrations: {
-      directory: './data/migrations.js'
+      directory: './data/migrations'
     },
-    seed: {
+    seeds: {
       directory: './data/seeds'
     },
     pool: {
