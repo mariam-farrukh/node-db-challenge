@@ -7,6 +7,13 @@ const router = express.Router();
 router.get("/", (req, res) => {
   Projects.getProjects()
     .then(projects => {
+      projects.forEach(project => {
+        if (project.completed === 1) {
+            project.completed = "true"
+        } else {
+            project.completed = "false"
+        }
+      })
       res.status(200).json(projects);
     })
     .catch(err => {
@@ -19,16 +26,18 @@ router.get("/:id", (req, res) => {
 
   Projects.getProjectById(id)
     .then(project => {
-      const booleanProject = {
-        ...project[0],
-        completed: !!+`${project.completed}`
-      };
-
-      if (!project[0]) {
-        return res.status(404).json({ message: "Invalid project id" });
-      } else {
-        res.status(200).json(booleanProject);
-      }
+        project.forEach(p => {
+            if (p.completed === 1) {
+                p.completed = "true"
+            } else {
+                p.completed = "false"
+            }
+        })
+        if (!project[0]) {
+            return res.status(404).json({ message: "Invalid project id" });
+        } else {
+            res.status(200).json(project);
+        }
     })
     .catch(err => {
       res.status(500).json({ message: "Error getting project from database" });
@@ -58,19 +67,18 @@ router.get("/:id/tasks", (req, res) => {
   console.log(id);
   Projects.getTasks(id)
     .then(tasks => {
-        // const booleanTask = {
-        //     ...tasks[0],
-        //     completed: !!+`${tasks.completed}`
-        // };
-      if (!tasks[0]) {
-        res.status(404).json({ message: "Invalid project id" });
-      } else {
-        res.status(200).json(tasks);
-      }
+        tasks.forEach(task => {
+        if (task.completed === 1) {
+            task.completed = "true"
+        } else {
+            task.completed = "false"
+        }
+        })
+        res.status(200).json(tasks)
     })
     .catch(err => {
-      res.status(500).json({ message: "Error fetching tasks from database" });
-    });
+        res.status(500).json({message: "Error getting tasks"})
+    })  
 });
 
 router.post("/:id/tasks", (req, res) => {
