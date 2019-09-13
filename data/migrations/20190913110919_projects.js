@@ -12,7 +12,7 @@ exports.up = function(knex) {
     
         .createTable("tasks", tbl => {
             tbl.increments();
-            tbl.string("task_decription").notNullable();
+            tbl.string("task_description").notNullable();
             tbl.string('task_notes');
             tbl.boolean("completed").notNullable().defaultTo(0);
             tbl
@@ -59,4 +59,3 @@ exports.down = function(knex) {
       .dropTableIfExists("tasks")
       .dropTableIfExists("projects");
 };
-
