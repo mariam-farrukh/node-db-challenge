@@ -46,7 +46,7 @@ exports.up = function(knex) {
                 .unsigned()
                 .notNullable()
                 .references("id")
-                .inTable("recources")
+                .inTable("resources")
                 .onDelete("RESTRICT")
                 .onUpdate("CASCADE");
         });
@@ -59,3 +59,4 @@ exports.down = function(knex) {
       .dropTableIfExists("tasks")
       .dropTableIfExists("projects");
 };
+
