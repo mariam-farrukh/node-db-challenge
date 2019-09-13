@@ -9,6 +9,13 @@ exports.up = function(knex) {
                 .notNullable()
                 .defaultTo(0);
         })
+
+            
+        .createTable("resources", tbl => {
+            tbl.increments();
+            tbl.string("resource_name").notNullable().unique();
+            tbl.string("resource_description");
+        })
     
         .createTable("tasks", tbl => {
             tbl.increments();
@@ -23,12 +30,6 @@ exports.up = function(knex) {
                 .inTable("projects")
                 .onDelete("RESTRICT")
                 .onUpdate("CASCADE");
-        })
-    
-        .createTable("resources", tbl => {
-            tbl.increments();
-            tbl.string("resource_name").notNullable().unique();
-            tbl.string("resource_description");
         })
     
         .createTable("projects_resources", tbl => {
@@ -55,7 +56,7 @@ exports.up = function(knex) {
 exports.down = function(knex) {
     return knex.schema
       .dropTableIfExists("projects_resources")
-      .dropTableIfExists("resources")
       .dropTableIfExists("tasks")
+      .dropTableIfExists("resources")
       .dropTableIfExists("projects");
 };
